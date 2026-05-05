@@ -1,0 +1,38 @@
+name: Security scan
+
+on:
+  schedule:
+    - cron: "0 3 * * 1" # Mondays 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image
+        run: docker build -t infra-backend backend
+      - name: Build ai image
+        run: docker build -t infra-ai ai-service
+      - name: Build frontend image
+        run: docker build -t infra-frontend frontend
+      - name: Trivy scan backend
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: infra-backend
+          severity: HIGH,CRITICAL
+          exit-code: "0"
+      - name: Trivy scan ai
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: infra-ai
+          severity: HIGH,CRITICAL
+          exit-code: "0"
+
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/python p/typescript p/owasp-top-ten

@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: oklch(0.99 0.002 240);
+    --foreground: oklch(0.2 0.02 240);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.2 0.02 240);
+    --primary: oklch(0.55 0.18 250);
+    --primary-foreground: oklch(0.98 0 0);
+    --muted: oklch(0.95 0.005 240);
+    --muted-foreground: oklch(0.5 0.02 240);
+    --accent: oklch(0.95 0.005 240);
+    --border: oklch(0.9 0.01 240);
+    --input: oklch(0.9 0.01 240);
+    --ring: oklch(0.55 0.18 250);
+    --success: oklch(0.65 0.15 150);
+    --warning: oklch(0.7 0.15 70);
+    --danger: oklch(0.6 0.2 25);
+  }
+
+  .dark {
+    --background: oklch(0.15 0.01 250);
+    --foreground: oklch(0.95 0.01 240);
+    --card: oklch(0.2 0.015 250);
+    --card-foreground: oklch(0.95 0.01 240);
+    --primary: oklch(0.7 0.15 250);
+    --primary-foreground: oklch(0.15 0.01 250);
+    --muted: oklch(0.25 0.015 250);
+    --muted-foreground: oklch(0.7 0.02 240);
+    --accent: oklch(0.25 0.015 250);
+    --border: oklch(0.3 0.015 250);
+    --input: oklch(0.3 0.015 250);
+    --ring: oklch(0.7 0.15 250);
+    --success: oklch(0.7 0.15 150);
+    --warning: oklch(0.75 0.15 70);
+    --danger: oklch(0.65 0.2 25);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 25%, transparent);
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: color-mix(in oklch, var(--card) 70%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted-foreground) transparent;
+  }
+}
+
+/* MapLibre overrides for dark mode legibility */
+.maplibregl-popup-content {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+.maplibregl-popup-tip {
+  border-top-color: var(--card) !important;
+}
+.maplibregl-ctrl button {
+  background: var(--card) !important;
+  color: var(--foreground) !important;
+}

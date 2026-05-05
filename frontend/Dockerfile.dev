@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install deps separately for cache
+COPY package.json package-lock.json* ./
+RUN npm install
+
+# Copy source code (will be bind-mounted at runtime)
+COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    WATCHPACK_POLLING=true \
+    CHOKIDAR_USEPOLLING=true
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
